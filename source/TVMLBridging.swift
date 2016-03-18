@@ -34,6 +34,16 @@ internal func dismissTVMLModal() {
     evaluateInTVMLContext(js)
 }
 
+internal func showTVMLLoadingIndicator(type: PresentationType) {
+    let js = "showLoadingIndicatorForType(\(type.rawValue))"
+    evaluateInTVMLContext(js)
+}
+
+internal func hideTVMLLoadingIndicator() {
+    let js = "removeLoadingIndicator()"
+    evaluateInTVMLContext(js)
+}
+
 private func evaluateInTVMLContext(js: String, completion: (Void->Void)? = nil) {
     Kitchen.appController.evaluateInJavaScriptContext({context in
         context.evaluateScript(js)

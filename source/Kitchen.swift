@@ -93,6 +93,14 @@ extension Kitchen {
     public static func dismissModal() {
         dismissTVMLModal()
     }
+    
+    public static func showLoadingIndicator(type type: PresentationType = .Default) {
+        showTVMLLoadingIndicator(type)
+    }
+    
+    public static func hideLoadingIndicator() {
+        hideTVMLLoadingIndicator()
+    }
 
 }
 

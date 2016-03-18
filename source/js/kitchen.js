@@ -42,7 +42,7 @@ function menuBarItemPresenter(xml) {
     var feature = currentTab.parentNode.getFeature("MenuBarDocument");
     if (feature) {
         var currentDoc = feature.getDocument(currentTab);
-        if (!currentDoc) {
+        if (!currentDoc || this.loadingIndicatorVisible) {
             feature.setDocument(xml, currentTab);
         }
     }
@@ -51,6 +51,7 @@ function menuBarItemPresenter(xml) {
 /// Documents presented in the modal view are presented in fullscreen
 /// with a semi-transparent background that blurs the document below it.
 function modalDialogPresenter(xml) {
+    removeLoadingIndicator()
     navigationDocument.presentModal(xml);
 }
 
@@ -147,7 +148,6 @@ function showLoadingIndicator(presentation) {
  */
 function showLoadingIndicatorForType(presentationType) {
     if (presentationType == 1 ||
-        presentationType == 2 ||
         this.loadingIndicatorVisible) {
         return;
     }
@@ -156,7 +156,15 @@ function showLoadingIndicatorForType(presentationType) {
         this.loadingIndicator = this.makeDocument(loadingTemplate());
     }
 
-    navigationDocument.pushDocument(this.loadingIndicator);
+    switch (presentationType) {
+        case 2:
+            menuBarItemPresenter(this.loadingIndicator);
+            break;
+        default:
+            navigationDocument.pushDocument(this.loadingIndicator);
+            break;
+    }
+    
     this.loadingIndicatorVisible = true;
 }
 
